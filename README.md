@@ -8,8 +8,6 @@ Inherits regular setup from the [WordPress Docker image](https://hub.docker.com/
 
 **PHP-FPM only** - requires a partner Nginx container to forward traffic to port 9000.
 
-Injects environment variables prefixed with `WPFPM_` into `wp-config.php` during each container startup.
-
 ## Recommended Environment
 
 The `docker-compose.yml` file injects 2 variables into `wp-config.php`:
@@ -18,6 +16,9 @@ The `docker-compose.yml` file injects 2 variables into `wp-config.php`:
 WPFPM_WP_REDIS_HOST: redis # Name of the Redis container
 WPFPM_RT_WP_NGINX_HELPER_CACHE_PATH: "/tmp/cache" # Set in wp-nginx.conf
 ```
+
+Any environment variables prefixed with `WPFPM_` will be injected into `wp-config.php` during each container startup. **Warning:** this means that `wp-config.php` is regenerated each restart using the provided environment variables.
+
 
 ## Quick Run
 
