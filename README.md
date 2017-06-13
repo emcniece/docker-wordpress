@@ -21,13 +21,16 @@ WPFPM_RT_WP_NGINX_HELPER_CACHE_PATH: "/tmp/cache" # Set in wp-nginx.conf
 
 ## Quick Run
 
+If you want to use the standalone FPM (port 9000) image:
+
 ```
-docker pull emcniece/wordpress
+docker run -td \
+  -v ./html:/var/www/html \
+  emcniece/wordpress:4-php7.1-fpm-alpine
 ```
 
-Update `docker-compose.yml` with local directory paths (to load `wp-nginx.conf` and `uploads.ini` properly), then execute:
+If you want to run a full web-accessible stack (Nginx, WP-FPM, MySQL, Redis):
 
 ```sh
 docker-compose up -d
 ```
-
