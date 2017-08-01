@@ -2,8 +2,8 @@ FROM wordpress:4-php7.1-fpm-alpine
 
 RUN apk --no-cache add openssl
 
-ENV PHPREDIS_VERSION 3.1.2 \
-    WPFPM_FLAG=WPFPM_
+ENV PHPREDIS_VERSION 3.1.2
+ENV WPFPM_FLAG WPFPM_
 
 RUN docker-php-source extract \
   && curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz \
