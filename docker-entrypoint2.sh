@@ -23,10 +23,9 @@ DEFINES=$(awk -v pat="$WPFPM_FLAG" 'END {
 echo $DEFINES
 
 echo "Adding Defines to wp-config.php..."
-mv wp-config.php wp-config.tmp
 
 # Remove previously-injected vars
-sed '/\/\/ENTRYPOINT_START/,/\/\/ENTRYPOINT_END/d' wp-config.tmp
+sed '/\/\/ENTRYPOINT_START/,/\/\/ENTRYPOINT_END/d' wp-config.php > wp-config.tmp
 
 # Add current vars
 awk '/^\/\*.*stop editing.*\*\/$/ && c == 0 { c = 1; system("cat") } { print }' wp-config.tmp > wp-config.php <<EOF
