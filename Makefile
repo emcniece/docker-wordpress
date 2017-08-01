@@ -7,7 +7,6 @@ ARCH := amd64
 DOCKER_IMAGE := $(NAMESPACE)/$(PROJECT)
 
 VERSION := $(shell cat VERSION)
-#GITSHA := $(shell git rev-parse --short HEAD)
 
 all: help
 
