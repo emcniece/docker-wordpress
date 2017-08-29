@@ -38,16 +38,22 @@ rm wp-config.tmp
 
 # Install Nginx Helper plugin
 if [ ! -e wp-content/plugins/nginx-helper ]; then
-  wget https://downloads.wordpress.org/plugin/nginx-helper.1.9.10.zip
-  unzip nginx-helper.1.9.10.zip -q -d /var/www/html/wp-content/plugins/
-  rm nginx-helper.1.9.10.zip
+  if ( wget https://downloads.wordpress.org/plugin/nginx-helper.1.9.10.zip ); then
+    unzip nginx-helper.1.9.10.zip -q -d /var/www/html/wp-content/plugins/
+    rm nginx-helper.1.9.10.zip
+  else
+    echo "## WARN: wget failed for https://downloads.wordpress.org/plugin/nginx-helper.1.9.10.zip"
+  fi
 fi
 
 # Install Redis Cache plugin
 if [ ! -e wp-content/plugins/redis-cache ]; then
-  wget https://downloads.wordpress.org/plugin/redis-cache.1.3.5.zip
-  unzip redis-cache.1.3.5.zip -q -d /var/www/html/wp-content/plugins/
-  rm redis-cache.1.3.5.zip
+  if ( wget https://downloads.wordpress.org/plugin/redis-cache.1.3.5.zip ); then
+    unzip redis-cache.1.3.5.zip -q -d /var/www/html/wp-content/plugins/
+    rm redis-cache.1.3.5.zip
+  else
+    echo "## WARN: wget failed for https://downloads.wordpress.org/plugin/redis-cache.1.3.5.zip"
+  fi
 fi
 
 # Set up Nginx Helper log directory
