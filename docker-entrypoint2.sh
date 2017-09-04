@@ -30,8 +30,15 @@ sed '/\/\/ENTRYPOINT_START/,/\/\/ENTRYPOINT_END/d' wp-config.php > wp-config.tmp
 # Add current vars
 awk '/^\/\*.*stop editing.*\*\/$/ && c == 0 { c = 1; system("cat") } { print }' wp-config.tmp > wp-config.php <<EOF
 //ENTRYPOINT_START
+
 $DEFINES
+
+if (isset(\$_SERVER['HTTP_X_FORWARDED_PROTO']) && \$_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+  \$_SERVER['HTTPS'] = 'on';
+}
+
 //ENTRYPOINT_END
+
 EOF
 
 rm wp-config.tmp
