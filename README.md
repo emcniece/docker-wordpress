@@ -45,7 +45,7 @@ The `docker-compose.yml` file injects 2 variables into `wp-config.php`:
 
 ```yml
 WPFPM_WP_REDIS_HOST: redis # Name of the Redis container
-WPFPM_RT_WP_NGINX_HELPER_CACHE_PATH: "/tmp/cache" # Set in wp-nginx.conf
+WPFPM_RT_WP_NGINX_HELPER_CACHE_PATH: "/tmp/cache" # Set in emcniece/nginx-cache-purge-wp default.conf
 ```
 
 Any environment variables prefixed with `WPFPM_` will be injected into `wp-config.php` during each container startup. **Warning:** this means that `wp-config.php` is regenerated each restart using the provided environment variables.
