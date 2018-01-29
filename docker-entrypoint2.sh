@@ -63,6 +63,16 @@ if [ ! -e wp-content/plugins/redis-cache ]; then
   fi
 fi
 
+# Install Mailgun plugin
+if [ ! -e wp-content/plugins/mailgun ]; then
+  if ( wget https://downloads.wordpress.org/plugin/mailgun.1.5.8.4.zip ); then
+    unzip mailgun.1.5.8.4.zip -q -d /var/www/html/wp-content/plugins/
+    rm mailgun.1.5.8.4.zip
+  else
+    echo "## WARN: wget failed for https://downloads.wordpress.org/plugin/mailgun.1.5.8.4.zip"
+  fi
+fi
+
 # Set up Nginx Helper log directory
 mkdir -p wp-content/uploads/nginx-helper
 
