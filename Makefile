@@ -6,7 +6,8 @@ PLATFORM := linux
 ARCH := amd64
 DOCKER_IMAGE := $(NAMESPACE)/$(PROJECT)
 
-VERSION := $(shell cat VERSION)
+VERSION 		:= $(shell cat VERSION)
+WP_VERSION 	:= $(shell cat WP_VERSION)
 
 all: help
 
@@ -37,8 +38,11 @@ docker:
 release: docker
 	@echo "Pushing $(DOCKER_IMAGE):latest"
 	docker tag $(DOCKER_IMAGE):$(VERSION) $(DOCKER_IMAGE):latest
+	docker tag $(DOCKER_IMAGE):$(VERSION) $(DOCKER_IMAGE):$(WP_VERSION)
 	docker push $(DOCKER_IMAGE):latest
+	docker push $(DOCKER_IMAGE):$(WP_VERSION)
 
 clean:
+	docker rmi $(DOCKER_IMAGE):$(WP_VERSION)
 	docker rmi $(DOCKER_IMAGE):$(VERSION)
 	docker rmi $(DOCKER_IMAGE):latest
