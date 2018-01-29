@@ -43,34 +43,28 @@ EOF
 
 rm wp-config.tmp
 
-# Install Nginx Helper plugin
-if [ ! -e wp-content/plugins/nginx-helper ]; then
-  if ( wget https://downloads.wordpress.org/plugin/nginx-helper.1.9.10.zip ); then
-    unzip nginx-helper.1.9.10.zip -q -d /var/www/html/wp-content/plugins/
-    rm nginx-helper.1.9.10.zip
-  else
-    echo "## WARN: wget failed for https://downloads.wordpress.org/plugin/nginx-helper.1.9.10.zip"
-  fi
-fi
+# Install $WP_PLUGINS
+if [ ! -f /var/www/firstrun ]; then
+  echo "Installing WordPress Plugins: $WP_PLUGINS"
 
-# Install Redis Cache plugin
-if [ ! -e wp-content/plugins/redis-cache ]; then
-  if ( wget https://downloads.wordpress.org/plugin/redis-cache.1.3.5.zip ); then
-    unzip redis-cache.1.3.5.zip -q -d /var/www/html/wp-content/plugins/
-    rm redis-cache.1.3.5.zip
-  else
-    echo "## WARN: wget failed for https://downloads.wordpress.org/plugin/redis-cache.1.3.5.zip"
-  fi
-fi
+  for PLUGIN in $WP_PLUGINS; do
+    echo "## Installing $PLUGIN"
+    if [ ! -e "wp-content/plugins/$PLUGIN" ]; then
+      if ( wget "https://downloads.wordpress.org/plugin/$PLUGIN.zip" ); then
+        unzip "$PLUGIN.zip" -q -d /var/www/html/wp-content/plugins/
+        rm "$PLUGIN.zip"
+      else
+        echo "## WARN: wget failed for https://downloads.wordpress.org/plugin/$PLUGIN.zip"
+      fi
+    else
+      echo "### $PLUGIN already installed, skipping."
+    fi
+  done
 
-# Install Mailgun plugin
-if [ ! -e wp-content/plugins/mailgun ]; then
-  if ( wget https://downloads.wordpress.org/plugin/mailgun.1.5.8.4.zip ); then
-    unzip mailgun.1.5.8.4.zip -q -d /var/www/html/wp-content/plugins/
-    rm mailgun.1.5.8.4.zip
-  else
-    echo "## WARN: wget failed for https://downloads.wordpress.org/plugin/mailgun.1.5.8.4.zip"
-  fi
+  # Print firstrun date/time to file
+  date > /var/www/firstrun
+else
+  echo "First run complete, skipping plugin install."
 fi
 
 # Set up Nginx Helper log directory

@@ -14,7 +14,7 @@ services:
   wp-fpm:
     tty: true
     stdin_open: true
-    image: emcniece/wordpress:4-php7.1-fpm-alpine
+    image: emcniece/wordpress:0.0.2
     volumes:
       - wproot:/var/www/html
     environment:
@@ -23,6 +23,7 @@ services:
       WORDPRESS_DB_PASSWORD: wordpress
       WPFPM_WP_REDIS_HOST: redis
       WPFPM_RT_WP_NGINX_HELPER_CACHE_PATH: "/tmp/cache"
+      WP_PLUGINS: "nginx-helper redis-cache"
 
   mysql:
     image: mariadb
