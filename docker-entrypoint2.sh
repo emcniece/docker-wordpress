@@ -47,7 +47,7 @@ rm wp-config.tmp
 if [ ! -f /var/www/firstrun ]; then
   echo "Executing first-run setup..."
 
-  # Install $WP_PLUGINS
+  # Install HyperDB Config
   if [ "$ENABLE_HYPERDB" == "true" ]; then
     echo "Installing HyperDB WPDB Drop-in"
     cp /var/www/config/hyperdb/db-config.php /var/www/html/
@@ -82,5 +82,22 @@ mkdir -p wp-content/uploads/nginx-helper
 
 # Set usergroup for all modified files
 chown -R www-data:www-data /var/www/html/
+
+
+if [ -n "$CRON_CMD" ]; then
+  echo "Installing Cron command: $CRON_CMD"
+  #write out current crontab
+  crontab -l > mycron
+  #echo new cron into cron file
+  echo "$CRON_CMD" >> mycron
+  #install new cron file
+  crontab mycron
+  rm mycron
+fi
+
+if [ "$ENABLE_CRON" == "true" ]; then
+  echo "Starting Cron daemon..."
+  crond
+fi
 
 exec "$@"

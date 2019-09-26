@@ -5,7 +5,9 @@ RUN apk --no-cache add openssl
 ENV PHPREDIS_VERSION=3.1.2 \
     CONFIG_VAR_FLAG=WPFPM_ \
     PAGER=more \
-    WP_PLUGINS="nginx-helper redis-cache"
+    WP_PLUGINS="nginx-helper redis-cache" \
+    ENABLE_HYPERDB=false \
+    ENABLE_CRON=false
 
 RUN docker-php-source extract \
   && curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz \
