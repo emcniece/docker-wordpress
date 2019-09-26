@@ -43,8 +43,18 @@ EOF
 
 rm wp-config.tmp
 
-# Install $WP_PLUGINS
+# First-run configuration
 if [ ! -f /var/www/firstrun ]; then
+  echo "Executing first-run setup..."
+
+  # Install $WP_PLUGINS
+  if [ "$ENABLE_HYPERDB" == "true" ]; then
+    echo "Installing HyperDB WPDB Drop-in"
+    cp /var/www/config/hyperdb/db-config.php /var/www/html/
+    cp /var/www/config/hyperdb/db.php /var/www/html/wp-content/
+  fi
+
+  # Install $WP_PLUGINS
   echo "Installing WordPress Plugins: $WP_PLUGINS"
 
   for PLUGIN in $WP_PLUGINS; do
@@ -64,7 +74,7 @@ if [ ! -f /var/www/firstrun ]; then
   # Print firstrun date/time to file
   date > /var/www/firstrun
 else
-  echo "First run complete, skipping plugin install."
+  echo "First run already completed, skipping configuration."
 fi
 
 # Set up Nginx Helper log directory

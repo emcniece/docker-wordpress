@@ -41,14 +41,36 @@ docker run -td \
 
 ## Recommended Environment
 
-The `docker-compose.yml` file injects 2 variables into `wp-config.php`:
+Recognized environment variables:
+
+- `ENABLE_HYPERDB`: Installs HyperDB config on first run, `[true|false]`
+    - eg. `ENABLE_HYPERDB=true`
+- `WP_PLUGINS`: space-separated plugin directory names, to be installed from the WP plugin marketplace
+    - eg. `WP_PLUGINS="nginx-helper redis-cache"`
+
+
+### Runtime ENV wp-config.php Injection
+
+Any environment variables prefixed with `WPFPM_` will be injected into `wp-config.php` during each container startup. **Warning:** this means that `wp-config.php` is regenerated each restart using the provided environment variables.
+
+The provided `docker-compose.yml` file injects 2 variables into `wp-config.php`:
 
 ```yml
 WPFPM_WP_REDIS_HOST: redis # Name of the Redis container
 WPFPM_RT_WP_NGINX_HELPER_CACHE_PATH: "/tmp/cache" # Set in emcniece/nginx-cache-purge-wp default.conf
 ```
 
-Any environment variables prefixed with `WPFPM_` will be injected into `wp-config.php` during each container startup. **Warning:** this means that `wp-config.php` is regenerated each restart using the provided environment variables.
+### HyperDB Configuration
+
+The HyperDB drop-in allows a replica database to be configured alongside the primary database.
+
+When `ENABLE_HYPERDB=true` the HyperDB config files will be copied into place and will override the database config provided in `wp-config.php`. The HyperDB replica database can be configured with the following environment variables:
+
+- `REPLICA_DB_HOST`
+- `REPLICA_DB_USER`
+- `REPLICA_DB_PASSWORD`
+- `REPLICA_DB_NAME`
+
 
 ### SSL Forwarding
 
@@ -73,3 +95,8 @@ If you want to run a full web-accessible stack (Nginx, WP-FPM, MySQL, Redis):
 ```sh
 docker-compose up -d
 ```
+
+## To Do
+
+- [ ] HyperDB config: allow read/write to be set for both primary and replica databases
+- [ ] HyperDB config: replace current ENV vars with `WPFPM_` injection pattern
