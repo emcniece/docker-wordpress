@@ -1,5 +1,6 @@
 # emcniece/wordpress
 
+Github: https://github.com/emcniece/docker-wordpress
 Docker Hub: https://hub.docker.com/r/emcniece/wordpress/
 
 From [WordPress](https://hub.docker.com/_/wordpress/), extended with [Nginx Helper](https://en-ca.wordpress.org/plugins/nginx-helper/) and [Redis Object Cache](https://en-ca.wordpress.org/plugins/redis-cache/) support.
@@ -47,6 +48,10 @@ Recognized environment variables:
     - eg. `ENABLE_HYPERDB=true`
 - `WP_PLUGINS`: space-separated plugin directory names, to be installed from the WP plugin marketplace
     - eg. `WP_PLUGINS="nginx-helper redis-cache"`
+- `ENABLE_CRON`: Enables `crond` daemon in background (logs to container stdout)
+    - eg. `ENABLE_CRON=true`
+- `CRON_CMD`: Cron command to be added to `crontab` on startup
+    - eg. `CRON_CMD="*/10 * * * * /usr/bin/ls -al /root"`
 
 
 ### Runtime ENV wp-config.php Injection
@@ -98,5 +103,6 @@ docker-compose up -d
 
 ## To Do
 
+- [x] Imagick / LibZip PHP Extensions (courtesy of `wordpress:5-php7.2-fpm-alpine`)
 - [ ] HyperDB config: allow read/write to be set for both primary and replica databases
 - [ ] HyperDB config: replace current ENV vars with `WPFPM_` injection pattern

@@ -14,7 +14,7 @@ services:
   wp-fpm:
     tty: true
     stdin_open: true
-    image: emcniece/wordpress:0.0.2
+    image: emcniece/wordpress:0.0.4
     volumes:
       - wproot:/var/www/html
     environment:
@@ -23,7 +23,10 @@ services:
       WORDPRESS_DB_PASSWORD: wordpress
       WPFPM_WP_REDIS_HOST: redis
       WPFPM_RT_WP_NGINX_HELPER_CACHE_PATH: "/tmp/cache"
-      WP_PLUGINS: "nginx-helper redis-cache"
+      #WP_PLUGINS: "nginx-helper redis-cache"
+      #ENABLE_HYPERDB: "true"
+      #ENABLE_CRON: "true"
+      #CRON_CMD: "*/1 * * * * /usr/bin/curl -silent -A 'Mozilla' 'https://google.com' >/dev/null 2>&1"
 
   mysql:
     image: mariadb
