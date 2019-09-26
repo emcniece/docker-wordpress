@@ -71,6 +71,20 @@ if [ ! -f /var/www/firstrun ]; then
     fi
   done
 
+  if [ -n "$CRON_CMD" ]; then
+    echo "Installing Cron command: $CRON_CMD"
+
+    #write out current crontab
+    crontab -l > /tmp/mycron
+    echo "$CRON_CMD" >> /tmp/mycron
+
+    #install new cron file
+    crontab /tmp/mycron
+    echo "Cron CMD installed."
+
+    rm /tmp/mycron
+  fi
+
   # Print firstrun date/time to file
   date > /var/www/firstrun
 else
@@ -83,21 +97,14 @@ mkdir -p wp-content/uploads/nginx-helper
 # Set usergroup for all modified files
 chown -R www-data:www-data /var/www/html/
 
-
-if [ -n "$CRON_CMD" ]; then
-  echo "Installing Cron command: $CRON_CMD"
-  #write out current crontab
-  crontab -l > mycron
-  #echo new cron into cron file
-  echo "$CRON_CMD" >> mycron
-  #install new cron file
-  crontab mycron
-  rm mycron
-fi
-
 if [ "$ENABLE_CRON" == "true" ]; then
   echo "Starting Cron daemon..."
-  crond
+
+  if pgrep -x "crond" > /dev/null; then
+      echo "Running"
+  else
+      /usr/sbin/crond
+  fi
 fi
 
 exec "$@"

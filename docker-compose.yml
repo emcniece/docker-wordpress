@@ -26,7 +26,7 @@ services:
       #WP_PLUGINS: "nginx-helper redis-cache"
       #ENABLE_HYPERDB: "true"
       #ENABLE_CRON: "true"
-      #CRON_CMD: "*/1 * * * * /usr/bin/curl -silent -A 'Mozilla' 'https://google.com' >/dev/null 2>&1"
+      #CRON_CMD: "*/1 * * * * /usr/bin/curl -silent -A 'Mozilla' 'https://google.com' > /dev/null 2>&1"
 
   mysql:
     image: mariadb
