@@ -2,7 +2,7 @@ FROM wordpress:5-php7.2-fpm-alpine
 
 RUN apk --no-cache add openssl imagemagick perl
 
-ENV PHPREDIS_VERSION=3.1.2 \
+ENV PHPREDIS_VERSION=5.0.2 \
     CONFIG_VAR_FLAG=WPFPM_ \
     PAGER=more \
     WP_PLUGINS="nginx-helper redis-cache" \

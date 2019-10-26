@@ -5,7 +5,7 @@ set -euo pipefail
 sed -i -e 's/exec/\# exec/g' /usr/local/bin/docker-entrypoint.sh
 
 # Normal setup
-/bin/bash /usr/local/bin/docker-entrypoint.sh $1
+/bin/bash /usr/local/bin/docker-entrypoint.sh "$1"
 
 # Generate vars for wp-config.php injection
 echo "Generating PHP Defines from ENV..."
@@ -20,7 +20,7 @@ DEFINES=$(awk -v pat="$CONFIG_VAR_FLAG" 'END {
 
   print " "
 }' < /dev/null)
-echo $DEFINES
+echo "$DEFINES"
 
 echo "Adding Defines to wp-config.php..."
 
@@ -71,6 +71,7 @@ if [ ! -f /var/www/firstrun ]; then
     fi
   done
 
+  CRON_CMD="${CRON_CMD:-}"
   if [ -n "$CRON_CMD" ]; then
     echo "Installing Cron command: $CRON_CMD"
 
