@@ -28,7 +28,7 @@ docker run -td \
   wp-fpm:
     tty: true
     stdin_open: true
-    image: emcniece/wordpress:0.0.2
+    image: emcniece/wordpress:latest
     volumes:
       - wproot:/var/www/html
     environment:
