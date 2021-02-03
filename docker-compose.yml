@@ -14,7 +14,7 @@ services:
   wp-fpm:
     tty: true
     stdin_open: true
-    image: emcniece/wordpress:latest
+    image: smokenik/docker-wordpress:latest
     volumes:
       - wproot:/var/www/html
     environment:
