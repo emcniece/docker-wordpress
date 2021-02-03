@@ -1,4 +1,4 @@
-FROM wordpress:5-php7.2-fpm-alpine
+FROM wordpress:5-php7.4-fpm-alpine
 
 RUN apk --no-cache add openssl imagemagick perl
 
