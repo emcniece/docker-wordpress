@@ -3,7 +3,7 @@ version: '3.1'
 services:
 
   nginx:
-    image: emcniece/nginx-cache-purge-wp:latest
+    image: emcniece/nginx-cache-purge-wp:0.0.2
     ports:
       - 8080:80
     links:
@@ -14,7 +14,7 @@ services:
   wp-fpm:
     tty: true
     stdin_open: true
-    image: emcniece/wordpress:latest
+    image: emcniece/wordpress:0.0.6
     volumes:
       - wproot:/var/www/html
     environment:

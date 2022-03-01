@@ -1,8 +1,8 @@
-FROM wordpress:5-php7.2-fpm-alpine
+FROM wordpress:php8.1-fpm-alpine
 
 RUN apk --no-cache add openssl imagemagick perl
 
-ENV PHPREDIS_VERSION=5.0.2 \
+ENV PHPREDIS_VERSION=5.3.7 \
     CONFIG_VAR_FLAG=WPFPM_ \
     PAGER=more \
     WP_PLUGINS="nginx-helper redis-cache" \
